@@ -1,7 +1,8 @@
 export type ColumnProps = {
     name: string,
     cards?: CardProps[],
-    count: number
+    count: number,
+    index?: number
 }
 
 export type CardProps = {

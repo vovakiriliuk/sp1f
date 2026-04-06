@@ -1,11 +1,12 @@
 .column {
     background: #f0f0f0;
-    height: 1000px;
+    height: 100%;
     width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 16px;
+    padding: 16px;
 }
 .header {
     display: flex;

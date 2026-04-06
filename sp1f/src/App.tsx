@@ -8,59 +8,73 @@ import type { CardProps } from './types'
 function App() {
   const [cards, setCards] = useState<CardProps[]>(initialCards)
 
+  const getCardsByColumn = (column: string) =>
+    cards.filter(card => card.column === column)
+
   const onDragEnd = (result: DropResult) => {
-    const { destination, source, draggableId } = result
+  const { destination, source } = result
 
-    if (!destination) return
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) return
+  if (!destination) return
 
-    const sourceCards = cards.filter(card => card.column === source.droppableId)
-    const destinationCards = cards.filter(card => card.column === destination.droppableId)
-    const movingCard = sourceCards[source.index]
-    if (!movingCard) return
+  if (
+    destination.droppableId === source.droppableId &&
+    destination.index === source.index
+  ) return
 
-    const updatedCard: CardProps = {
-      ...movingCard,
-      column: destination.droppableId,
-    }
+  const sourceCards = cards.filter(c => c.column === source.droppableId)
+  const movingCard = sourceCards[source.index]
+  if (!movingCard) return
 
-    if (source.droppableId === destination.droppableId) {
-      const reordered = Array.from(sourceCards)
-      const [removed] = reordered.splice(source.index, 1)
-      reordered.splice(destination.index, 0, removed)
+  let newCards = cards.filter(c => c.id !== movingCard.id)
 
-      setCards(cards.map(card => {
-        if (card.column !== source.droppableId) return card
-        return reordered.shift() ?? card
-      }))
-      return
-    }
-
-    const newSourceCards = Array.from(sourceCards)
-    newSourceCards.splice(source.index, 1)
-
-    const newDestinationCards = Array.from(destinationCards)
-    newDestinationCards.splice(destination.index, 0, updatedCard)
-
-    setCards(cards.map(card => {
-      if (card.id === movingCard.id) return updatedCard
-      if (card.column === source.droppableId) return newSourceCards.shift() ?? card
-      if (card.column === destination.droppableId) return newDestinationCards.shift() ?? card
-      return card
-    }))
+  const updatedCard = {
+    ...movingCard,
+    column: destination.droppableId,
   }
+
+  const destinationCards = newCards.filter(c => c.column === destination.droppableId)
+
+  const before = destinationCards.slice(0, destination.index)
+  const after = destinationCards.slice(destination.index)
+
+  const newDestinationCards = [...before, updatedCard, ...after]
+
+  newCards = [
+    ...newCards.filter(c => c.column !== destination.droppableId),
+    ...newDestinationCards,
+  ]
+
+  setCards(newCards)
+}
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <section className="columns">
-        <Column name="New" cards={cards.filter(card => card.column === 'New')} count={cards.filter(card => card.column === 'New').length} />
-        <Column name="Screening" cards={cards.filter(card => card.column === 'Screening')} count={cards.filter(card => card.column === 'Screening').length} />
-        <Column name="Interview" cards={cards.filter(card => card.column === 'Interview')} count={cards.filter(card => card.column === 'Interview').length} />
-        <Column name="Offer" cards={cards.filter(card => card.column === 'Offer')} count={cards.filter(card => card.column === 'Offer').length} />
-        <Column name="Hired" cards={cards.filter(card => card.column === 'Hired')} count={cards.filter(card => card.column === 'Hired').length} />
+        <Column
+          name="New"
+          cards={getCardsByColumn('New')}
+          count={getCardsByColumn('New').length}
+        />
+        <Column
+          name="Screening"
+          cards={getCardsByColumn('Screening')}
+          count={getCardsByColumn('Screening').length}
+        />
+        <Column
+          name="Interview"
+          cards={getCardsByColumn('Interview')}
+          count={getCardsByColumn('Interview').length}
+        />
+        <Column
+          name="Offer"
+          cards={getCardsByColumn('Offer')}
+          count={getCardsByColumn('Offer').length}
+        />
+        <Column
+          name="Hired"
+          cards={getCardsByColumn('Hired')}
+          count={getCardsByColumn('Hired').length}
+        />
       </section>
     </DragDropContext>
   )
