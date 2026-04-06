@@ -1,0 +1,15 @@
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: start;
+    cursor: pointer;
+    border: 1px solid #ccc;
+
+    h3 {
+        margin: 0;
+    }
+    p {
+        margin: 8px 0 0 0;
+    }
+}
