@@ -1,9 +1,10 @@
-import './App.css'
 import { useState } from 'react'
-import { Column } from './Column'
-import { cards as initialCards } from './data'
+import { Column } from './components/Column'
+import { cards as initialCards } from './db/data'
 import { DragDropContext, type DropResult } from '@hello-pangea/dnd'
 import type { CardProps } from './types'
+import { Flex } from '@mantine/core'
+import '@mantine/core/styles.css'
 
 function App() {
   const [cards, setCards] = useState<CardProps[]>(initialCards)
@@ -46,36 +47,25 @@ function App() {
 
   setCards(newCards)
 }
+  const names = ['New','Screening','Interview','Offer','Hired']
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <section className="columns">
-        <Column
-          name="New"
-          cards={getCardsByColumn('New')}
-          count={getCardsByColumn('New').length}
-        />
-        <Column
-          name="Screening"
-          cards={getCardsByColumn('Screening')}
-          count={getCardsByColumn('Screening').length}
-        />
-        <Column
-          name="Interview"
-          cards={getCardsByColumn('Interview')}
-          count={getCardsByColumn('Interview').length}
-        />
-        <Column
-          name="Offer"
-          cards={getCardsByColumn('Offer')}
-          count={getCardsByColumn('Offer').length}
-        />
-        <Column
-          name="Hired"
-          cards={getCardsByColumn('Hired')}
-          count={getCardsByColumn('Hired').length}
-        />
-      </section>
+      <Flex
+        justify='center'
+        gap="xl"
+        p={'20px'}
+      >
+        {names.map((name,index) => (
+            <Column 
+            key={index}
+            name={name}
+            cards={getCardsByColumn(name)}
+            count={getCardsByColumn(name).length}
+            />
+        ))   
+        } 
+      </Flex>
     </DragDropContext>
   )
 }
