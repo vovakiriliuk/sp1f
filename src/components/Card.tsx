@@ -1,21 +1,25 @@
-import type { CardProps} from '../types';
-import { Text,Title,Box } from '@mantine/core'
+import type { CardProps } from '../types';
+import { Text,Title,Card, Divider } from '@mantine/core'
 import '@mantine/core/styles/Title.css'
 import '@mantine/core/styles/Text.css'
+import '@mantine/core/styles/Card.css'
 
-export const Card = ({ name, appliedPosition, applicationDate, index }: CardProps) => {     
+export const FullCard = ({ name, appliedPosition, applicationDate, index }: CardProps) => {     
+    const info = [appliedPosition, applicationDate]
     return (
         <>
-         <Box style={{textAlign: "start"}} bd={'1px solid #000'} p={'sm'} bdrs={'md'}>
-                <Title 
-                    fz={'20px'}
+         <Card style={{textAlign: "start"}}>
+                <Title order={4}
                 >
                     {index!+1}.{name}
                 </Title>
-                <hr />
-                <Text fz={'14px'}>{appliedPosition}</Text>
-                <Text fz={'14px'}>{applicationDate}</Text>
-         </Box>  
+                <Divider bg="custom-theme.3" my='xs'/>
+
+                {info.map((text) => (
+                    <Text fz={'14px'}>{text}</Text>
+                    ))
+                }
+         </Card>  
         </>
     )
 }

@@ -54,7 +54,7 @@ function App() {
       <Flex
         justify='center'
         gap="xl"
-        p={'20px'}
+        p="md"
       >
         {names.map((name,index) => (
             <Column 
