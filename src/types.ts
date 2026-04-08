@@ -2,7 +2,8 @@ export type ColumnProps = {
     name: string,
     cards?: CardProps[],
     count: number,
-    index?: number
+    index?: number,
+    background?: string
 }
 
 export type CardProps = {

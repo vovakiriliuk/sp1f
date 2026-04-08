@@ -62,6 +62,7 @@ function App() {
             name={name}
             cards={getCardsByColumn(name)}
             count={getCardsByColumn(name).length}
+            background={`custom-theme.${index+4}`}
             />
         ))   
         } 

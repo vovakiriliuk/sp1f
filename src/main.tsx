@@ -5,8 +5,8 @@ import App from './App.tsx'
 import { MantineProvider,createTheme, type MantineColorsTuple } from '@mantine/core'
 
 const colors: MantineColorsTuple = [
-  '#f0f0f0', '#000000', '#e4e4e4', '#5bb540', '#cce7c9',
-  '#0077b6', '#03045e', '#ff2c2c', '#808588', '#999da0'
+  '#f0f0f0', '#ffffff', '#cce7c9','#e4e4e4',
+   '#ff2c2c','#0077b6', '#c8d349','#5bb540','#999da0' , '#000000'
 ]
 
 const theme = createTheme({
@@ -16,9 +16,9 @@ const theme = createTheme({
         sizes : {
           h4 : {
             fontSize: '20px',
-            fontWeight: '600'
+            fontWeight: '600',
           }
-        }
+        },
       },
 
       spacing : {
@@ -27,13 +27,13 @@ const theme = createTheme({
       },
 
       colors : {
-        'custom-theme': colors
+        'custom-theme': colors,
       },
       primaryColor: 'custom-theme'
   })
 
 createRoot(document.getElementById('root')!).render(
-  <MantineProvider theme={theme}>
+  <MantineProvider theme={theme} defaultColorScheme='dark'>
   <StrictMode>
     <App />
   </StrictMode>
